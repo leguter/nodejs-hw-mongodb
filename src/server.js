@@ -13,7 +13,7 @@ export const setupServer = ()=>{
      res.json({
         status: 200,
         message: "Successfully find contacts",
-        data,
+        data: data,
     })
     })
     app.use(pino({
@@ -23,12 +23,12 @@ export const setupServer = ()=>{
     }),
 )
 app.use(cors())
-    app.get('/contacts/:contactID', async (req, res)=> {
-     const {id} = req.params;
-     const data =  await contactServices.getContactsById(id)
+    app.get('/contacts/:ID', async (req, res)=> {
+     const {_id} = req.params;
+     const data =  await contactServices.getContactsById(_id)
 if (!data) {
   return   res.status(404).json({
-        message: `Contact with ID=${id}, not found`,
+        message: `Contact with ID=${_id}, not found`,
     })
 }
      res.json({
