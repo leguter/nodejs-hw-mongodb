@@ -23,12 +23,12 @@ export const setupServer = ()=>{
     }),
 )
 app.use(cors())
-    app.get('/contacts/:ID', async (req, res)=> {
-     const {_id} = req.params;
-     const data =  await contactServices.getContactsById(_id)
+    app.get('/contacts/:id', async (req, res)=> {
+     const {id} = req.params;
+     const data =  await contactServices.getContactsById(id)
 if (!data) {
   return   res.status(404).json({
-        message: `Contact with ID=${_id}, not found`,
+        message: `Contact with ID=${id}, not found`,
     })
 }
      res.json({
