@@ -1,31 +1,11 @@
 
 import { Router } from "express";
-import * as contactServices from '../services/contacts.js'
+// import * as contactServices from '../services/contacts.js'
 const router = Router();
-
+import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { getAllContactsController, getContactByIdController,addContactController} from "../controllers/contacts.js";
    
-router.get('/contacts', async(req,res)=> {
-    const data = await contactServices.getContacts()
-    res.json({
-       status: 200,
-       message: "Successfully find contacts",
-       data: data,
-   })
-   })
- 
-
-router.get('/contacts/:id', async (req, res)=> {
-    const {id} = req.params;
-    const data =  await contactServices.getContactsById(id)
-if (!data) {
- return   res.status(404).json({
-       message: `Contact with ID=${id}, not found`,
-   })
-}
-    res.json({
-       status: 200,
-       message: "Successfully find contact",
-       data,
-   })
-   })
+router.get('/contacts', ctrlWrapper(getAllContactsController))
+router.get('/contacts/:id', ctrlWrapper(getContactByIdController))
+router.post('/contacts',ctrlWrapper(addContactController))
 export default router;
