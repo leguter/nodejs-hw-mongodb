@@ -2,20 +2,22 @@
 import express from 'express';
 import  pino from 'pino-http';
 import cors from 'cors';
-import * as contactServices from './services/contacts.js'
+// import * as contactServices from './services/contacts.js'
+import studentsRouter from './routers/contacts.js';
 const PORT = 3000;
 export const setupServer = ()=>{
     const app = express();
     app.use(express.json())
    
-    app.get('/contacts', async(req,res)=> {
-     const data = await contactServices.getContacts()
-     res.json({
-        status: 200,
-        message: "Successfully find contacts",
-        data: data,
-    })
-    })
+    // app.get('/contacts', async(req,res)=> {
+    //  const data = await contactServices.getContacts()
+    //  res.json({
+    //     status: 200,
+    //     message: "Successfully find contacts",
+    //     data: data,
+    // })
+    // })
+    app.use(studentsRouter)
     app.use(pino({
         transport: {
             target: 'pino-pretty',
@@ -23,20 +25,20 @@ export const setupServer = ()=>{
     }),
 )
 app.use(cors())
-    app.get('/contacts/:ID', async (req, res)=> {
-     const {_id} = req.params;
-     const data =  await contactServices.getContactsById(_id)
-if (!data) {
-  return   res.status(404).json({
-        message: `Contact with ID=${_id}, not found`,
-    })
-}
-     res.json({
-        status: 200,
-        message: "Successfully find contact",
-        data,
-    })
-    })
+//     app.get('/contacts/:ID', async (req, res)=> {
+//      const {_id} = req.params;
+//      const data =  await contactServices.getContactsById(_id)
+// if (!data) {
+//   return   res.status(404).json({
+//         message: `Contact with ID=${_id}, not found`,
+//     })
+// }
+//      res.json({
+//         status: 200,
+//         message: "Successfully find contact",
+//         data,
+//     })
+//     })
     app.use('*', (req,res)=>{
         res.status(404).json({
             message:'Not found'
