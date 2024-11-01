@@ -1,21 +1,17 @@
 import { Schema, model } from 'mongoose';
 const contactsSchema = new Schema({
     
-        name:{type:String, required: true,}
-},
-{
+    
+        name:{type:String, required: true,},
+
     phoneNumber: { type: String, required:true},
-   
-},
-{
-    email: {type:String}
-},
-{
+
+    email: {type:String},
+
     isFavorite: {
         type: Boolean, default: false
-    }
-},
-{
+    },
+
     contactType: {
         type:String, enum:['work', 'home', 'personal'],
         default: 'personal',
@@ -23,7 +19,7 @@ const contactsSchema = new Schema({
     }
 }, 
 {
-    timestamps: true
+    versionKey: false, timestamps: true
 }
 );
 const ContactsCollection = model('contacts', contactsSchema)
