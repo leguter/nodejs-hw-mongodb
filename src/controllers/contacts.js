@@ -5,7 +5,7 @@ import createHttpError from 'http-errors'
     res.json({
        status: 200,
        message: "Successfully find contacts",
-       data: data,
+       data,
    })
 }
 export const getContactByIdController = async (req, res) => {

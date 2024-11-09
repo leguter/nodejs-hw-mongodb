@@ -15,10 +15,11 @@ export const createContact = async (payload)  => {
 export const updateContact = async ({id,payload, options={}}) => {
     const contact = await ContactsCollection.findOneAndUpdate({_id: id},payload,{...options, new:true, includeResultMetadata: true});
    if(!contact || !contact.value) return null
- return {
-    data: contact.value,
-    isNew: Boolean(contact.lastErrorObject.upserted)
- }
+   else {
+    return  contact.value
+   }
+ 
+ 
 }
 export const deleteContact = async (filter)=> {
 const contact =  await ContactsCollection.findOneAndDelete({_id:filter})
