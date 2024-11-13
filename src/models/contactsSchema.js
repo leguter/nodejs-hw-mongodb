@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { typeList } from '../constants/movies.js';
 const contactsSchema = new Schema({
     
     
@@ -13,7 +14,7 @@ const contactsSchema = new Schema({
     },
 
     contactType: {
-        type:String, enum:['work', 'home', 'personal'],
+        type:String, enum:typeList,
         default: 'personal',
         required: true
     }
