@@ -12,7 +12,7 @@ export const validateUpdateSchema = Joi.object(
 export const validateAddSchema = Joi.object({
     name: Joi.string().min(3).max(20).required(),
         phoneNumber: Joi.string().required(),
-        email: Joi.string().email().required(),
-        isFavorite: Joi.boolean().required(),
+        email: Joi.string().email(),
+        isFavorite: Joi.boolean(),
         contactType: Joi.string().valid(...typeList)
 })
