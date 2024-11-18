@@ -6,7 +6,7 @@ try {
     })
     next()
 } catch(err) {
-    const error = createHttpError(404, "Bad request", {
+    const error = createHttpError(404, "Some field(/s) do not right or missing", {
         errors: err.details,
     })
     next(error)
