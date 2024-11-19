@@ -6,7 +6,7 @@ try {
     })
     next()
 } catch(err) {
-    const error = createHttpError(400, `Promblem ${err.message}`, {
+    const error = createHttpError(400, `Problem ${err.message}`, {
         errors: err.details,
     })
     next(error)
