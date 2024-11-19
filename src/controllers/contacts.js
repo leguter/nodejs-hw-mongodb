@@ -25,7 +25,8 @@ throw createHttpError(404,`Contact with id=${id}not found`)
    })
 }
 export const addContactController = async(req, res) => {
-    const contact = await contactServices.createContact(req.body);
+    const {id: userId} = req.user
+    const contact = await contactServices.createContact({...req.body, userId});
 
     res.status(201).json({
         status: 201,
