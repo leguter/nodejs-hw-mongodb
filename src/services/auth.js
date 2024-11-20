@@ -34,16 +34,19 @@ export const loginUser = async (payload) => {
        ...newSession
     })
 }
-export const findSession = filter => SessionCollection.findOne(filter)
-export const findUser = filter => UserCollection.findOne(filter);
 export const refreshUser = async({sessionId,refreshToken})=> {
-    const session = await SessionCollection.findOne({id: sessionId, refreshToken})
+    const session = await SessionCollection.findOne({_id: sessionId, refreshToken})
     if(!session) throw createHttpError(401, "Session not found")
         if(Date.now() > session.refreshTokenValidUntil)  throw createHttpError(401,"Access token expired")
-            await SessionCollection.deleteOne({id: session._id})
+            await SessionCollection.deleteOne({_id: session._id})
         const newSession = createSession()
         return await SessionCollection.create({
-            userId:user._id,
+            userId:session.userId,
            ...newSession
         })
 }
+export const logoutUser = async ({sessionId}) => {
+    await SessionCollection.deleteOne({_id:sessionId})
+}
+export const findSession = filter => SessionCollection.findOne(filter)
+export const findUser = filter => UserCollection.findOne(filter);

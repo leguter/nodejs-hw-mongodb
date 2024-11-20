@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 const sessionSchema = new Schema({
-    userId: {type: Schema.Types.ObjectId,ref:"users", required: true},
+    userId: {type: Schema.Types.ObjectId,ref:"user", required: true},
     accessToken:{type: String, required: true},
     refreshToken: {type: String, required: true},
     accessTokenValidUntil: {type: Date, required: true},
@@ -8,5 +8,5 @@ const sessionSchema = new Schema({
 },
     {timestamps: true, versionKey: false}
 )
- const SessionsCollection = model('sessions', sessionSchema);
+ const SessionsCollection = model('session', sessionSchema);
  export default SessionsCollection
