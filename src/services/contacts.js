@@ -14,8 +14,9 @@ import { calculatePaginationData } from "../utils/calculatePaginationData.js";
         ...paginationData
     }
 }
-export const getContactsById = async (id) => {
-    const contact = await ContactsCollection.findById(id) 
+export const getContactsById = async (id,userId) => {
+    console.log(id, userId)
+    const contact = await ContactsCollection.findOne({userId, id}) 
     return contact;
 };
 export const createContact = async (payload)  => {
@@ -23,8 +24,9 @@ export const createContact = async (payload)  => {
     return contact
 
 }
-export const updateContact = async ({id,payload, options={}}) => {
-    const contact = await ContactsCollection.findOneAndUpdate({_id: id},payload,{...options, new:true, includeResultMetadata: true});
+export const updateContact = async (id,payload,userId ,options={}) => {
+    console.log(id, userId)
+    const contact = await ContactsCollection.findOneAndUpdate({_id: id, userId},payload,{...options, new:true, includeResultMetadata: true});
    if(!contact || !contact.value) return null
    else {
     return  contact.value
@@ -32,8 +34,8 @@ export const updateContact = async ({id,payload, options={}}) => {
  
  
 }
-export const deleteContact = async (filter)=> {
-const contact =  await ContactsCollection.findOneAndDelete({_id:filter})
+export const deleteContact = async (contactId, userId)=> {
+const contact =  await ContactsCollection.findOneAndDelete({_id:contactId,userId})
 return contact
     
 }

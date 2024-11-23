@@ -22,10 +22,12 @@ export const registerUserController = async (req,res) => {
 export const loginUserController = async (req, res) => {
   const user =  await loginUser(req.body)
   setupSession(res, user)
-  res.status(201).json({
-    status: 201,
+  res.status(200).json({
+    status: 200,
     message: "Successfully login a user",
-    data:user.accessToken,
+    data:{
+      accessToken: user.accessToken,
+     }
   })
 }
 export const refreshSessionController = async (req, res) => {
@@ -34,7 +36,9 @@ export const refreshSessionController = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: "Successfully refresh a user",
-      data:session.accessToken,
+      data:{
+       accessToken: session.accessToken,
+      }
     })
 }
 export const logoutUserController = async (req, res) => {

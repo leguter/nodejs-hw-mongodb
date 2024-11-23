@@ -6,7 +6,8 @@ export const validateUpdateSchema = Joi.object(
         phoneNumber: Joi.string(),
         email: Joi.string().email(),
         isFavorite: Joi.boolean(),
-        contactType: Joi.string().valid(...typeList)
+        contactType: Joi.string().valid(...typeList),
+        // userId: Joi.string()
     }
 )
 export const validateAddSchema = Joi.object({
