@@ -14,9 +14,9 @@ import { calculatePaginationData } from "../utils/calculatePaginationData.js";
         ...paginationData
     }
 }
-export const getContactsById = async (id,userId) => {
-    console.log(id, userId)
-    const contact = await ContactsCollection.findOne({ _id: id,userId}) 
+export const getContactsById = async (id,_id) => {
+    console.log(id)
+    const contact = await ContactsCollection.findOne({ _id: id,userId:_id}) 
     return contact;
 };
 export const createContact = async (payload)  => {

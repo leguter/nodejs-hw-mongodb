@@ -15,12 +15,11 @@ import mongoose from 'mongoose'
 }
 export const getContactByIdController = async (req, res) => {
     const {id} = req.params;
-    const {id: userId} = req.user
-    // console.log()
+    const {_id} = req.user;
     if (!mongoose.Types.ObjectId.isValid(id)) {
         throw createHttpError(404, 'Contact not found');
       }
-    const data =  await contactServices.getContactsById(id, userId)
+    const data =  await contactServices.getContactsById(id, _id)
 if (!data) {
 throw createHttpError(404,`Contact with id=${id} not found`)
 }
