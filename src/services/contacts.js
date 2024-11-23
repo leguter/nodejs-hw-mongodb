@@ -16,7 +16,7 @@ import { calculatePaginationData } from "../utils/calculatePaginationData.js";
 }
 export const getContactsById = async (id,userId) => {
     console.log(id, userId)
-    const contact = await ContactsCollection.findOne({userId, id}) 
+    const contact = await ContactsCollection.findOne({ _id: id,userId}) 
     return contact;
 };
 export const createContact = async (payload)  => {
