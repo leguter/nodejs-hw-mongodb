@@ -43,9 +43,9 @@ export const addContactController = async(req, res) => {
 }
 export const patchContactController = async (req,res,next) => {
 const {id} = req.params;
-const {id: userId} = req.user
+const {_id} = req.user
 // problem putch
-const data = await contactServices.updateContact({id,userId,payload:req.body} )
+const data = await contactServices.updateContact(id,req.body, _id)
 if(!data) {
     next(createHttpError(404, `Contact with id=${id} not found`))
     return
@@ -59,8 +59,8 @@ res.json({
 }
 export const deleteContactController = async (req,res) => {
     const {id} = req.params;
-    const {_id: userId} = req.user
-    const data = await contactServices.deleteContact(id,userId);
+    const {_id} = req.user
+    const data = await contactServices.deleteContact(id,_id);
     if(!data) {
         throw createHttpError(404, `Movie with id=${id} not found`);
     }
