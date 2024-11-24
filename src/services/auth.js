@@ -4,6 +4,10 @@ import UserCollection  from "../models/modelSchema.js";
 import createHttpError from "http-errors";
 import  SessionCollection from "../models/SessionSchema.js"
 import { fifteen_minutes, one_day } from "../constants/auth.js";
+import jwt from 'jsonwebtoken'
+import { SMTP } from "../constants/index.js";
+import { env } from "process";
+import {sendMail} from '../utils/sendMail.js'
 const createSession = ()=> {
     const accessToken = randomBytes(30).toString('base64');
     const refreshToken = randomBytes(30).toString('base64');
@@ -48,5 +52,27 @@ export const refreshUser = async({sessionId,refreshToken})=> {
 export const logoutUser = async ({sessionId}) => {
     await SessionCollection.deleteOne({_id:sessionId})
 }
+
 export const findSession = filter => SessionCollection.findOne(filter)
 export const findUser = filter => UserCollection.findOne(filter);
+
+export const requestResetEmail = async (email) => {
+    const request = await UserCollection.findOne({email})
+    if(!request) throw createHttpError(404, "user not found")
+        const resetToken = jwt.sign({
+    sub: request._id,
+    email
+    },
+    env('JWT_SECRET'),
+    {
+        expiresIn: '5m',
+    },
+);
+
+await sendMail({
+    from: env(SMTP.SMTP_FROM),
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+})
+}
