@@ -6,7 +6,8 @@ import mongoose from 'mongoose'
  export const getAllContactsController = async (req, res) => {
     const {page, perPage} = parsePaginationParams(req.query)
     const {sortBy, sortOrder} = parseSortParams(req.query)
-    const data = await contactServices.getContacts({page, perPage, sortBy, sortOrder})
+    const {_id} = req.user;
+    const data = await contactServices.getContacts({page, perPage, sortBy, sortOrder,_id})
     res.json({
        status: 200,
        message: "Successfully find contacts",

@@ -1,12 +1,12 @@
 import { SORT_ORDER } from "../constants/movies.js";
 import ContactsCollection from "../models/contactsSchema.js";
 import { calculatePaginationData } from "../utils/calculatePaginationData.js";
- export const getContacts = async ({page = 1, perPage = 10, sortBy = "_id", sortOrder = SORT_ORDER.ASC})=> {
+ export const getContacts = async ({page = 1, perPage = 10, sortBy = "_id", sortOrder = SORT_ORDER.ASC, _id})=> {
     const skip = (page - 1) * perPage;
     const contactsQuery = ContactsCollection.find();
-    const totalItems= await ContactsCollection.find().merge(contactsQuery).countDocuments()
+    const totalItems= await ContactsCollection.find({userId:_id}).merge(contactsQuery).countDocuments()
 //    const totalItems =   await ContactsCollection.find().countDocuments()
-   const contacts = await ContactsCollection.find().skip(skip).limit(perPage).sort({[sortBy]:sortOrder}).exec();
+   const contacts = await ContactsCollection.find({userId:_id}).skip(skip).limit(perPage).sort({[sortBy]:sortOrder}).exec();
    const paginationData = calculatePaginationData({page,perPage,totalItems})
 //    resolve totalItems
     return {
