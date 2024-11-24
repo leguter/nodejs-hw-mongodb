@@ -2,6 +2,7 @@ import * as contactServices from '../services/contacts.js'
 import createHttpError from 'http-errors'
 import { parsePaginationParams } from '../utils/parsePaginationParams.js'
 import { parseSortParams } from '../utils/parseSortParams.js'
+import mongoose from 'mongoose'
  export const getAllContactsController = async (req, res) => {
     const {page, perPage} = parsePaginationParams(req.query)
     const {sortBy, sortOrder} = parseSortParams(req.query)
@@ -14,9 +15,13 @@ import { parseSortParams } from '../utils/parseSortParams.js'
 }
 export const getContactByIdController = async (req, res) => {
     const {id} = req.params;
-    const data =  await contactServices.getContactsById(id)
+    const {_id} = req.user;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw createHttpError(404, 'Contact not found');
+      }
+    const data =  await contactServices.getContactsById(id, _id)
 if (!data) {
-throw createHttpError(404,`Contact with id=${id}not found`)
+throw createHttpError(404,`Contact with id=${id} not found`)
 }
     res.json({
        status: 200,
@@ -25,7 +30,9 @@ throw createHttpError(404,`Contact with id=${id}not found`)
    })
 }
 export const addContactController = async(req, res) => {
-    const contact = await contactServices.createContact(req.body);
+    const {id: userId} = req.user
+    
+    const contact = await contactServices.createContact({...req.body, userId});
 
     res.status(201).json({
         status: 201,
@@ -36,7 +43,9 @@ export const addContactController = async(req, res) => {
 }
 export const patchContactController = async (req,res,next) => {
 const {id} = req.params;
-const data = await contactServices.updateContact({id,payload:req.body})
+const {_id} = req.user
+// problem putch
+const data = await contactServices.updateContact(id,req.body, _id)
 if(!data) {
     next(createHttpError(404, `Contact with id=${id} not found`))
     return
@@ -44,13 +53,14 @@ if(!data) {
 res.json({
 	status: 200,
 	message: "Successfully patched a contact!",
-	data
+	data: data
 	// оновлені дані контакту
 })
 }
 export const deleteContactController = async (req,res) => {
     const {id} = req.params;
-    const data = await contactServices.deleteContact(id)
+    const {_id} = req.user
+    const data = await contactServices.deleteContact(id,_id);
     if(!data) {
         throw createHttpError(404, `Movie with id=${id} not found`);
     }

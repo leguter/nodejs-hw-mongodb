@@ -2,8 +2,9 @@
 import express from 'express';
 import  pino from 'pino-http';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 // import * as contactServices from './services/contacts.js'
-import studentsRouter from './routers/contacts.js';
+import router from './routers/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 const PORT = 3000;
@@ -17,7 +18,8 @@ export const setupServer = ()=>{
 )
 app.use(express.json())
 app.use(cors())
-app.use(studentsRouter)
+app.use(cookieParser())
+app.use(router)
     app.use(notFoundHandler)
     app.use(errorHandler)
      app.listen(PORT, ()=> {
