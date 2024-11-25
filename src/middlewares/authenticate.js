@@ -6,7 +6,7 @@ export const authenticate = async (req, res, next) => {
     if(!authHeader) return next(createHttpError(401,"Authorization header missing"))
         const [Bearer, token] = authHeader.split(" ")
     if(Bearer !== "Bearer") return next(createHttpError(401,"Authorization header must be type Bearer"))
-        const session = findSession({accesToken: token})
+        const session = await findSession({accessToken: token})
     if(!session) return next(createHttpError(401,"Session not found"))
         if(Date.now() > session.accesTokenValidUntil) return next(createHttpError(401,"Access token expired"))
             // console.log(session)
