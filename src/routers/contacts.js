@@ -8,10 +8,11 @@ import { validateAddSchema, validateUpdateSchema } from "../validation/contacts.
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import { getAllContactsController, getContactByIdController,addContactController, patchContactController, deleteContactController} from "../controllers/contacts.js";
    import { isValidId } from "../middlewares/isValidId.js";
+   import { upload } from "../middlewares/upload.js";
    router.use(authenticate)
 router.get('/', ctrlWrapper(getAllContactsController))
 router.get('/:id', isValidId, ctrlWrapper(getContactByIdController))
-router.post('/', validateBody(validateAddSchema),ctrlWrapper(addContactController))
-router.patch('/:id',isValidId,validateBody(validateUpdateSchema), ctrlWrapper(patchContactController))
+router.post('/', upload.single('photo'),validateBody(validateAddSchema),ctrlWrapper(addContactController))
+router.patch('/:id',upload.single('photo'),isValidId,validateBody(validateUpdateSchema), ctrlWrapper(patchContactController))
 router.delete('/:id', isValidId, ctrlWrapper(deleteContactController))
 export default router;

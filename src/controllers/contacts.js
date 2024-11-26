@@ -1,8 +1,13 @@
 import * as contactServices from '../services/contacts.js'
 import createHttpError from 'http-errors'
+import path from 'node:path'
 import { parsePaginationParams } from '../utils/parsePaginationParams.js'
 import { parseSortParams } from '../utils/parseSortParams.js'
 import mongoose from 'mongoose'
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js'
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js'
+import { env } from '../utils/env.js'
+const enableCloudinary = env('ENABLE_CLOUDINARY')
  export const getAllContactsController = async (req, res) => {
     const {page, perPage} = parsePaginationParams(req.query)
     const {sortBy, sortOrder} = parseSortParams(req.query)
@@ -31,9 +36,22 @@ throw createHttpError(404,`Contact with id=${id} not found`)
    })
 }
 export const addContactController = async(req, res) => {
+    // console.log(req.body)
+    // console.log(req.file)
     const {id: userId} = req.user
+    let photo = null;
+    if(req.file) {
+     if(enableCloudinary === 'true') {
+        await saveFileToCloudinary(req.file, 'photos')
+        photo = path.join(req.file.filename)
+        return
+     } else  {
+        await saveFileToUploadDir(req.file)
+        photo = path.join(req.file.filename)
+    }
+    } 
     
-    const contact = await contactServices.createContact({...req.body, userId});
+    const contact = await contactServices.createContact({...req.body,photo, userId});
 
     res.status(201).json({
         status: 201,
@@ -45,8 +63,19 @@ export const addContactController = async(req, res) => {
 export const patchContactController = async (req,res,next) => {
 const {id} = req.params;
 const {_id} = req.user
-// problem putch
-const data = await contactServices.updateContact(id,req.body, _id)
+
+let photo = null;
+    if(req.file) {
+     if(enableCloudinary === 'true') {
+        await saveFileToCloudinary(req.file, 'photos')
+        photo = path.join(req.file.filename)
+        return
+     } else  {
+        await saveFileToUploadDir(req.file)
+        photo = path.join(req.file.filename)
+    }
+    } 
+const data = await contactServices.updateContact(id,req.body, _id, photo)
 if(!data) {
     next(createHttpError(404, `Contact with id=${id} not found`))
     return
