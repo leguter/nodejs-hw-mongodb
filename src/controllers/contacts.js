@@ -42,9 +42,9 @@ export const addContactController = async(req, res) => {
     let photo = null;
     if(req.file) {
      if(enableCloudinary === 'true') {
-        await saveFileToCloudinary(req.file, 'photos')
-        photo = path.join(req.file.filename)
-        return
+      photo =  await saveFileToCloudinary(req.file, 'photos')
+      console.log(photo)
+       
      } else  {
         await saveFileToUploadDir(req.file)
         photo = path.join(req.file.filename)
@@ -67,15 +67,13 @@ const {_id} = req.user
 let photo = null;
     if(req.file) {
      if(enableCloudinary === 'true') {
-        await saveFileToCloudinary(req.file, 'photos')
-        photo = path.join(req.file.filename)
-        return
+      photo =  await saveFileToCloudinary(req.file, 'photos')
      } else  {
         await saveFileToUploadDir(req.file)
         photo = path.join(req.file.filename)
     }
     } 
-const data = await contactServices.updateContact(id,req.body, _id, photo)
+const data = await contactServices.updateContact(id,{...req.body,photo}, _id)
 if(!data) {
     next(createHttpError(404, `Contact with id=${id} not found`))
     return
