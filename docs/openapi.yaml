@@ -37,7 +37,6 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://nodejs-hw-mongodb-xjgy.onrender.com
 paths:
   /contacts:
     get:
@@ -47,7 +46,7 @@ paths:
   /contacts{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
-    delete:
+     delete:
       $ref: ../swagger/paths/contacts/{id}/delete.yaml
 components:
   securitySchemes:
