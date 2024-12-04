@@ -43,10 +43,12 @@ paths:
       $ref: ../swagger/paths/contacts/get.yaml
     post:
       $ref: ../swagger/paths/contacts/post.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/post.yaml
   /contacts{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
-     delete:
+    delete:
       $ref: ../swagger/paths/contacts/{id}/delete.yaml
 components:
   securitySchemes:

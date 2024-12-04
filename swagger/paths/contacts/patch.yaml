@@ -1,9 +1,9 @@
 #/swagger/paths/students/post.yaml
 tags:
   - Contacts
-summary: Create contact
-operationId: createContact
-description: 'Create a contact with payload'
+summary: Update contact
+operationId: UpdateContact
+description: 'Update a contact'
 security:
   - bearerAuth: []
 requestBody:
@@ -11,10 +11,6 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
-          - contactType
         properties:
           name:
             description: "Contact's name"
@@ -37,7 +33,7 @@ requestBody:
             type: string
             format: binary
 responses:
-  '201':
+  '200':
     description: Creates a contact
     content:
       application/json:
@@ -50,13 +46,13 @@ responses:
           properties:
             status:
               type: integer
-              example: 201
+              example: 200
             message:
               type: string
-              example: Successfully created a contact!
+              example: Successfully updated a contact!
             data:
               type: object
               $ref: '../../components/schemas/contact.yaml'
-  '401':
-    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'
 
