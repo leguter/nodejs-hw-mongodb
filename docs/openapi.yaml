@@ -37,6 +37,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
+  - url: https://nodejs-hw-mongodb-xjgy.onrender.com
 paths:
   /contacts:
     get:
