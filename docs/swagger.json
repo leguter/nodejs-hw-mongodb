@@ -72,7 +72,15 @@
           },
           {
             "in": "query",
-            "name": "gender",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "example": "name"
+            }
+          },
+          {
+            "in": "query",
+            "name": "contactType",
             "schema": {
               "type": "string",
               "enum": [
@@ -201,13 +209,18 @@
                       "personal"
                     ]
                   },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "testEmail@gmail.com"
+                  },
                   "isFavorite": {
                     "description": "Special contact",
                     "type": "boolean",
                     "example": false
                   },
                   "photo": {
-                    "description": "Student's photo",
+                    "description": "Contact's photo",
                     "type": "string",
                     "format": "binary"
                   }
@@ -293,13 +306,18 @@
                       "personal"
                     ]
                   },
+                  "email": {
+                    "description": "Contact's email",
+                    "type": "string",
+                    "example": "testEmail@gmail.com"
+                  },
                   "isFavorite": {
                     "description": "Special contact",
                     "type": "boolean",
                     "example": false
                   },
                   "photo": {
-                    "description": "Student's photo",
+                    "description": "Contact's photo",
                     "type": "string",
                     "format": "binary"
                   }
@@ -494,6 +512,11 @@
             "description": "Contact's number",
             "type": "string",
             "example": "+3809312420"
+          },
+          "email": {
+            "description": "Contact's email",
+            "type": "string",
+            "example": "testEmail@gmail.com"
           },
           "contactType": {
             "description": "Contact's type",

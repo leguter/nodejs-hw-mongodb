@@ -24,12 +24,16 @@ requestBody:
             description: "Contact's type"
             type: string
             enum: ['work', 'home', 'personal']
+          email:
+            description: "Contact's email"
+            type: string
+            example: "testEmail@gmail.com"
           isFavorite:
             description: "Special contact"
             type: boolean
             example: false
           photo:
-            description: "Student's photo"
+            description: "Contact's photo"
             type: string
             format: binary
 responses:
@@ -52,7 +56,7 @@ responses:
               example: Successfully updated a contact!
             data:
               type: object
-              $ref: '../../components/schemas/contact.yaml'
+              $ref: '../../components/schemas/patch.yaml'
   '404':
     $ref: '../../components/responses/404.yaml'
 

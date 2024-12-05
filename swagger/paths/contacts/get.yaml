@@ -23,7 +23,12 @@ parameters:
       enum: ['asc', 'desc']
       example: 'asc'
   - in: query
-    name: gender
+    name: sortBy
+    schema:
+        type: string
+        example: 'name'
+  - in: query
+    name: contactType
     schema:
       type: string
       enum: ['work', 'home', 'personal']
