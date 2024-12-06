@@ -268,9 +268,9 @@
         "tags": [
           "Contacts"
         ],
-        "summary": "Create contact",
-        "operationId": "createContact",
-        "description": "Create a contact with payload",
+        "summary": "Update contact",
+        "operationId": "UpdateContact",
+        "description": "Update a contact",
         "security": [
           {
             "bearerAuth": []
@@ -281,11 +281,6 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "phoneNumber",
-                  "contactType"
-                ],
                 "properties": {
                   "name": {
                     "description": "Contact's name",
@@ -327,7 +322,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Creates a contact",
             "content": {
               "application/json": {
@@ -341,23 +336,23 @@
                   "properties": {
                     "status": {
                       "type": "integer",
-                      "example": 201
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully created a contact!"
+                      "example": "Successfully updated a contact!"
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/contact"
+                      "$ref": "#/components/schemas/patch"
                     }
                   }
                 }
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -543,6 +538,55 @@
             "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
           }
         }
+      },
+      "patch": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "description": "Contact's id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "name": {
+            "description": "Contact's name",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "phoneNumber": {
+            "description": "Contact's number",
+            "type": "string",
+            "example": "+3809312420"
+          },
+          "email": {
+            "description": "Contact's email",
+            "type": "string",
+            "example": "testEmail@gmail.com"
+          },
+          "contactType": {
+            "description": "Contact's type",
+            "type": "string",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ]
+          },
+          "userId": {
+            "description": "Contact's personal id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "isFavorite": {
+            "description": "Special contact",
+            "type": "boolean",
+            "example": false
+          },
+          "photo": {
+            "description": "Link to contact's photo",
+            "type": "string",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          }
+        }
       }
     },
     "responses": {
@@ -564,6 +608,30 @@
                 "message": {
                   "type": "string",
                   "example": "UnauthorizedError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "not found error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Contact with id=65ca67e7ae7f10c88b598384 not found"
                 }
               }
             }
