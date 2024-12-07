@@ -6,6 +6,13 @@ operationId: UpdateContact
 description: 'Update a contact'
 security:
   - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598384'
 requestBody:
   content:
     multipart/form-data:
@@ -38,7 +45,7 @@ requestBody:
             format: binary
 responses:
   '200':
-    description: Creates a contact
+    description: update a contact
     content:
       application/json:
         schema:
@@ -56,7 +63,7 @@ responses:
               example: Successfully updated a contact!
             data:
               type: object
-              $ref: '../../components/schemas/patch.yaml'
+              $ref: ../../../components/schemas/contact.yaml
   '404':
-    $ref: '../../components/responses/404.yaml'
+    $ref: '../../../components/responses/404.yaml'
 
