@@ -77,19 +77,6 @@
               "type": "string",
               "example": "name"
             }
-          },
-          {
-            "in": "query",
-            "name": "contactType",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "work",
-                "home",
-                "personal"
-              ],
-              "example": "personal"
-            }
           }
         ],
         "responses": {
@@ -265,7 +252,7 @@
         }
       }
     },
-    "/contacts{id}": {
+    "/contacts/{id}": {
       "get": {
         "tags": [
           "Contacts"

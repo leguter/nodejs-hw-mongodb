@@ -27,12 +27,6 @@ parameters:
     schema:
         type: string
         example: 'name'
-  - in: query
-    name: contactType
-    schema:
-      type: string
-      enum: ['work', 'home', 'personal']
-      example: 'personal'
 responses:
   '200':
     description: Successfully found contacts!
